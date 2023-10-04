@@ -17,7 +17,7 @@ creada con JSON Server, el admin puede agregar, editar y eliminar productos.
 
 ## Datos para iniciar sesión
 
-Correo: Heric@alura.com
+Correo: Marvin@alura.com
 
 contraseña: admin123
 
