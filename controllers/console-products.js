@@ -3,16 +3,8 @@ const consolesProducts = document.querySelector(
 ); //template de los productos de consolas
 const cardTemplateConsole = document.querySelector("#card__template").content;
 
-async function getTypeProducts(typeProduct) {
-  try {
-    const response = await fetch(
-      `https://alura-geek-fake-appi-server.herokuapp.com/products?category=${typeProduct}`
-    );
-    const products = await response.json();
-    return products;
-  } catch (error) {
-    console.log(error);
-  }
+async function getTypeProductsConsole(typeProduct) {
+  return mockProducts.filter((product) => product.category === typeProduct);
 }
 
 const consolesCarousel = () => {

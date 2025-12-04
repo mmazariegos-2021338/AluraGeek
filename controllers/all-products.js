@@ -39,38 +39,19 @@ btnCancelRemoveProduct.addEventListener("click", () => {
 
 //creamos una funcion para traer los datos de todos los articulos desde la api json
 
+//creamos una funcion para traer los datos de todos los articulos desde la api json
+
 async function getAllProducts() {
-  try {
-    const response = await fetch(
-      "https://alura-geek-fake-appi-server.herokuapp.com/products"
-    );
-    const products = await response.json();
-    return products;
-  } catch (error) {
-    console.log(error);
-  }
+  return mockProducts;
 }
 
 const removeProduct = async (id) => {
-  try {
-    console.log(id);
-    const res = await fetch(
-      `https://alura-geek-fake-appi-server.herokuapp.com/products/${id}`,
-      {
-        method: "DELETE",
-      }
-    );
-    console.log(res);
-    // const products = await response.json();
-    // return products;
-  } catch (error) {
-    console.log(error);
-  } finally {
-    setTimeout(() => {
-      window.location.reload();
-      alertSuccessRemoveProduct.classList.remove("active");
-    }, 2600);
-  }
+  console.log("Simulating removal of product:", id);
+  alertSuccessRemoveProduct.classList.add("active");
+  setTimeout(() => {
+    window.location.reload();
+    alertSuccessRemoveProduct.classList.remove("active");
+  }, 1000);
 };
 
 const editProduct = async (
@@ -81,57 +62,38 @@ const editProduct = async (
   description,
   category
 ) => {
-  try {
-    const product = {
-      name: name,
-      price: price,
-      description: description,
-      imageUrl: imageUrl,
-      category: category,
-      id: id,
-    };
-    console.log(id);
-    const res = await fetch(
-      `https://alura-geek-fake-appi-server.herokuapp.com/products/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(product),
-      }
-    );
-    console.log(res);
-    // const products = await response.json();
-    // return products;
-  } catch (error) {
-    console.log(error);
-  } finally {
-    setTimeout(() => {
-      window.location.reload();
-      alertRemoveProduct.classList.remove("active");
-      alertSuccessEditProduct.classList.remove("active");
-    }, 2600);
-  }
+  console.log("Simulating edit of product:", id, {
+    name,
+    price,
+    imageUrl,
+    description,
+    category,
+  });
+  alertSuccessEditProduct.classList.add("active");
+  setTimeout(() => {
+    window.location.reload();
+    alertRemoveProduct.classList.remove("active");
+    alertSuccessEditProduct.classList.remove("active");
+  }, 1000);
 };
 
 const drawDataForm = async (id) => {
   try {
     const form = document.querySelector("[data-form-edit]");
 
-    const response = await fetch(
-      `https://alura-geek-fake-appi-server.herokuapp.com/products?id=${id}`
-    );
-    const products = await response.json();
-    console.log(products);
-    const { name, price, imageUrl, description, category } = products[0];
-    idProduct = id;
+    // Find product in mock data
+    const product = mockProducts.find((p) => p.id === id);
 
-    form.querySelector("[data-name-edit]").value = name;
-    form.querySelector("[data-price-edit]").value = price;
-    form.querySelector("[data-image-edit]").value = imageUrl;
-    form.querySelector("[data-description-edit]").value = description;
-    form.querySelector("[data-category-edit]").value = category;
+    if (product) {
+      const { name, price, imageUrl, description, category } = product;
+      idProduct = id;
+
+      form.querySelector("[data-name-edit]").value = name;
+      form.querySelector("[data-price-edit]").value = price;
+      form.querySelector("[data-image-edit]").value = imageUrl;
+      form.querySelector("[data-description-edit]").value = description;
+      form.querySelector("[data-category-edit]").value = category;
+    }
   } catch (error) {
     console.log(error);
   }

@@ -3,16 +3,8 @@ const soundsProducts = document.querySelector(
 ); // template de los productos de joysticos
 const cardTemplateSounds = document.querySelector("#card__template").content;
 
-async function getTypeProductsSounds(typeProduct) {
-  try {
-    const response = await fetch(
-      `https://alura-geek-fake-appi-server.herokuapp.com/products?category=${typeProduct}`
-    );
-    const products = await response.json();
-    return products;
-  } catch (error) {
-    console.log(error);
-  }
+async function getTypeProductsSound(typeProduct) {
+  return mockProducts.filter((product) => product.category === typeProduct);
 }
 
 const soundsCarousel = () => {

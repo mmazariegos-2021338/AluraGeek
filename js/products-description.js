@@ -8,37 +8,58 @@ const modalProductDescription = document.querySelector(".modal__product-descript
 
 async function showProducts(id) {
   try {
-    const response = await fetch(
-      `https://alura-geek-fake-appi-server.herokuapp.com/products?id=${id}`
-    );
-    const products = await response.json();
+    // Find product in mock data
+    const product = mockProducts.find((p) => p.id === id);
 
     const fragment = document.createDocumentFragment();
     productDescriptionModal.textContent = "";
 
-    products.forEach(({ name, price, imageUrl, description }) => {
+    if (product) {
+      const { name, price, imageUrl, description } = product;
       const card = templateModal.cloneNode(true);
       card.querySelector(".product__description-content-title").textContent = name;
       card.querySelector(".product__description-content-price").textContent = price;
-      card.querySelector(".product__description-content-description").textContent = description;
+      card.querySelector(".product__description-content-description").textContent = description; // Note: The original HTML structure might need adjustment if description is inside a p tag
+      // Actually, looking at the template in index.html:
+      // <div class="product__description-content-description">
+      //   <h2>Descripción</h2>
+      //   <p>...</p>
+      // </div>
+      // So setting textContent on the container might wipe out the h2. 
+      // Let's target the p tag if possible, or just append the text.
+      // The original code did: card.querySelector(".product__description-content-description").textContent = description;
+      // This would replace the entire content including the <h2>. 
+      // Let's fix this to target the p tag if it exists, or just set the description text.
+
+      // Let's check the template structure in index.html again.
+      // <div class="product__description-content-description">
+      //   <h2>Descripción</h2>
+      //   <p>...</p>
+      // </div>
+
+      const descriptionContainer = card.querySelector(".product__description-content-description");
+      const descriptionParagraph = descriptionContainer.querySelector("p");
+      if (descriptionParagraph) {
+        descriptionParagraph.textContent = description;
+      } else {
+        // Fallback if p tag is missing
+        descriptionContainer.textContent = description;
+      }
+
       card.querySelector("img").src = imageUrl;
 
       const favoriteItem = card.querySelector(".add-favorites");
-      console.log(favoriteItem);
       card.querySelector(".add-favorites").addEventListener("click", () => {
-        console.log(favoriteItem);
         favoriteItem.classList.toggle("active");
         console.log("Añadir a favoritos");
       });
 
       fragment.appendChild(card);
-    });
+    }
 
     productDescriptionModal.appendChild(fragment);
   } catch (error) {
     console.log(error);
-  } finally {
-    // window.location.reload();
   }
 }
 const toggleDescription = () => {
@@ -47,7 +68,7 @@ const toggleDescription = () => {
   modalProductDescription.classList.toggle("active");
 };
 
-const showProductDescription = (event) => {
+window.showProductDescription = (event) => {
   const idProduct = event.target.parentElement.dataset.id;
   toggleDescription();
   showProducts(idProduct);

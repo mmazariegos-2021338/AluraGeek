@@ -4,15 +4,7 @@ const joysticksProducts = document.querySelector(
 const cardTemplateJoy = document.querySelector("#card__template").content;
 
 async function getTypeProductsJoy(typeProduct) {
-  try {
-    const response = await fetch(
-      `https://alura-geek-fake-appi-server.herokuapp.com/products?category=${typeProduct}`
-    );
-    const products = await response.json();
-    return products;
-  } catch (error) {
-    console.log(error);
-  }
+  return mockProducts.filter((product) => product.category === typeProduct);
 }
 
 const joysticksCarousel = () => {

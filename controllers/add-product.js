@@ -33,31 +33,18 @@ const createProduct = (
   imageProduct,
   categoryProduct
 ) => {
-  fetch("https://alura-geek-fake-appi-server.herokuapp.com/products", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: nameProduct,
-      price: priceProduct,
-      description: descriptionProduct,
-      imageUrl: imageProduct,
-      category: categoryProduct,
-    }),
-  })
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      setTimeout(() => {
-        window.location.reload();
-        alertSuccessAddProduct.classList.remove("active");
-      }, 2600);
-    });
+  console.log("Simulating creation of product:", {
+    name: nameProduct,
+    price: priceProduct,
+    description: descriptionProduct,
+    imageUrl: imageProduct,
+    category: categoryProduct,
+  });
+
+  setTimeout(() => {
+    window.location.reload();
+    alertSuccessAddProduct.classList.remove("active");
+  }, 1000);
 };
 
 formAddProduct.addEventListener("submit", (event) => {
@@ -102,8 +89,8 @@ formAddProduct.addEventListener("submit", (event) => {
       descriptionProduct,
       imageProduct,
       categoryProduct
-      );
-      alertSuccessAddProduct.classList.add("active");
-    }
-    
+    );
+    alertSuccessAddProduct.classList.add("active");
+  }
+
 });
